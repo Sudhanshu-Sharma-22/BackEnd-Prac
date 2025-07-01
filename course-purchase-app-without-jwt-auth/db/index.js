@@ -1,42 +1,16 @@
-const mongoose = require('mongoose');
-const { title } = require('process');
-require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const adminRouter = require("./routes/admin")
+const userRouter = require("./routes/user");
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-// Define schemas
-const AdminSchema = new mongoose.Schema({
-    // Schema definition here
-    username:String,
-    password:String
+// Middleware for parsing request bodies
+app.use(bodyParser.json());
+app.use("/admin", adminRouter)
+app.use("/user", userRouter)
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-
-const UserSchema = new mongoose.Schema({
-    // Schema definition here
-    username:String,
-    password:String,
-    purchasedCourses:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Course'
-    }]
-});
-
-const CourseSchema = new mongoose.Schema({
-    // Schema definition here
-    title:String,
-    description:String,
-    image:String,
-    price:Number
-});
-
-const Admin = mongoose.model('Admin', AdminSchema);
-const User = mongoose.model('User', UserSchema);
-const Course = mongoose.model('Course', CourseSchema);
-
-module.exports = {
-    Admin,
-    User,
-    Course
-}
