@@ -3,7 +3,7 @@ const { title } = require('process');
 require('dotenv').config();
 
 // Connect to MongoDB
-mongoose.connect(`mongodb+srv://sudhanshusharmawork22:79w7rzbyx3dylTtD@course-cohort.jqzru1e.mongodb.net/cohort-courses-application-with-jwt`)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 // Define schemas
