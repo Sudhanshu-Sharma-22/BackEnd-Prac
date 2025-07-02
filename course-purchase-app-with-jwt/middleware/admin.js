@@ -8,7 +8,7 @@ function adminMiddleware(req, res, next) {
     const splitter=token.split(" ");
     const jwtToken=splitter[1];
     const decoded=jwt.verify(jwtToken,secret);
-    if(decoded.userame){
+    if(decoded.username){
         next();
     }
     else{
